@@ -55,6 +55,7 @@ window.addEventListener("load", function () {
             // append g of wrapping rects
             var g_wrapper = svg.append('g')
             .attr('id', 'frame_' + i.toString())
+            .attr('data-frame', i.toString())
             .attr('transform', 'translate(' + (rect_config.width * i).toString() + ')');
 
             // append rect
@@ -82,7 +83,12 @@ window.addEventListener("load", function () {
         ];
     }
     
-    function videoPreview() {
+    function videoPreview(click_node) {
+        var videoData = document.getElementById('video_data');
+        var count_data = click_node.parentElement.getAttribute('data-frame');
+        
+        // set frame data
+        videoData.currentTime = (count_data * frame_sample) / 60;
     }
     
     function showCount() {
@@ -96,6 +102,7 @@ window.addEventListener("load", function () {
     function showInfo() {
         document.getElementById('data_count').innerHTML = this.getAttribute('data-count');
         document.getElementById('detail_count').innerHTML = this.getAttribute('data-detail');
+        videoPreview(this);
     }
     
     function createAxis() {
