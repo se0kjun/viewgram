@@ -1,13 +1,15 @@
 <html>
     <head>
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script src="./js/index.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
 
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/0.3.2/aframe.min.js"></script>
+        <script src="./js/index.js"></script>
     </head>
     <body>
         <div class="navbar-fixed">
@@ -30,9 +32,20 @@
                     </div>
                 </div>
             </div>
+                
+<!--
             <div id="video_wrapper">
                 <video id="video_data" src="./res/woods.mp4"></video>
             </div>
+-->
         </div>
+        <a-scene canvas="#test" not-fullscreen>
+            <a-assets>
+                <video id="video_data" src="./res/woods.mp4"></video>
+            </a-assets>
+            <a-videosphere width="100px" src="#video_data" rotation="0 180 0"></a-videosphere>
+            <canvas id="test"></canvas>
+        </a-scene>
+        
     </body>
 </html>
