@@ -66,6 +66,7 @@ window.addEventListener("load", function () {
                 });
             });
             
+            // find a maximum rotation range
             var max_angle_data_lookup = angle_data_lookup.reduce(function(previous_d, current_d, idx, arr) {
                 return (current_d > arr[previous_d]) ? idx : previous_d;
             }, 0);
@@ -86,8 +87,8 @@ window.addEventListener("load", function () {
                     .attr('data-count', d)
                     .attr('data-detail', arr)
                     .attr('data-angle', idx * angle_sample)
+                    .attr('class', (idx == max_angle_data_lookup) ? 'max-item' : 'none')
                     .style('fill', colorPick(color_level_count, d))
-                    .style('stroke', (idx == max_angle_data_lookup) ? '#FFF' : 'none')
                     .on('mouseover', showCount)
                     .on('mouseleave', hideCount)
                     .on('click', showInfo);
@@ -95,7 +96,7 @@ window.addEventListener("load", function () {
         }
         
         createColorLabel();
-//        createYAxis();
+        createYAxis();
 //        createXAxis();
     });
     
@@ -117,11 +118,11 @@ window.addEventListener("load", function () {
     }
     
     function showCount() {
-        d3.select(this).style('stroke', '#FFF');
+        this.classList.add('hover-item');
     }
     
     function hideCount() {
-        d3.select(this).style('stroke', 'none');
+        this.classList.remove('hover-item');
     }
     
     function showInfo() {
@@ -131,14 +132,29 @@ window.addEventListener("load", function () {
     }
     
     function createYAxis() {
-        var axis = svg.append('g')
+        var lineData = [
+            // vertical line of y-axis
+            [{x:0, y:0}, {x:0, y:svg_config.height - svg_config.axis_margin}],
+            // horizontal line of y-axis
+            [{x:-5, y:0}, {x:5, y:0}],
+            [{x:-5, y:30}, {x:5, y:30}],
+            [{x:-5, y:60}, {x:5, y:60}],
+            [{x:-5, y:90}, {x:5, y:90}],
+            [{x:-5, y:120}, {x:5, y:120}],
+            [{x:-5, y:150}, {x:5, y:150}],
+            [{x:-5, y:180}, {x:5, y:180}]
+        ],
+        axis = svg.append('g')
         .attr('transform', 'translate(40)');
         
-        axis.append('path')
-        .attr('d', line_axis(lineData))
-        .attr('stroke', 'white')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
+        // draw every line 
+        lineData.forEach(function(d) {
+            axis.append('path')
+            .attr('d', line_axis(d))
+            .attr('stroke', 'white')
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
+        });
     }
     
     function createXAxis() {
