@@ -35,10 +35,10 @@ window.addEventListener("load", function () {
         angle_sample = 10, // degrees
         color_level = 5,
         frame_level = 0,
-        whole_frame_count;
-//        line_axis = d3.svg.line()
-//        .x(function(d){return d.x})
-//        .y(function(d){return d.y});
+        whole_frame_count,
+        line_axis = d3.line()
+        .x(function(d){return d.x;})
+        .y(function(d){return d.y;});
     
     var svg_init = (function() {
         svg_config.height = rect_config.height * (360 / angle_sample) + svg_config.axis_margin;
